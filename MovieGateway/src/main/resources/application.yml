@@ -1,0 +1,32 @@
+spring:
+ cloud:
+   gateway:
+     routes:
+       - id: movie-app
+         uri: lb://MOVIE-APP
+         predicates:
+           - Path=/movie/**
+         filters:
+           - AuthenticationFilter
+
+
+       - id: rate-app
+         uri: lb://RATE-APP
+         predicates:
+           - Path=/rate/**
+         filters:
+           - AuthenticationFilter
+
+       - id: user-app
+         uri: lb://USER-APP
+         predicates:
+           - Path=/user/**
+
+ application:
+   name: MOVIE-GATEWAY
+   
+server:  port: 8080
+eureka:
+  client:
+    service-url:
+      defaultZone : http://localhost:8761/eureka/
